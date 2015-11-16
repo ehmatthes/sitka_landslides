@@ -43,44 +43,19 @@ with open(filename) as f:
 
 
 cum_rainfall = []
-cum_rainfall.append(rainfall[0])
-for new_precip in rainfall[1:]:
+for index, new_precip in enumerate(rainfall):
+    if index == 0:
+        cum_rainfall.append(new_precip)
+        continue
     cum_rf = round((cum_rainfall[-1] + new_precip), 2)
-    cum_rainfall.append(cum_rf)
-    
-# Rainfall readings accumulate within the hour. So subtract that hour's previous
-#  reading to get adjusted readings.
-print("Adjusting cumulative rainfall...")
-adj_cum_rainfall = []
-for index, cum_rf in enumerate(cum_rainfall):
-    ts = timestamps[index]
-    if index > 0:
-        if ts.strftime("%I") == timestamps[index-1].strftime("%I"):
-            # Need to adjust; do so, then continue loop.
-            adj_cum_rf = round((cum_rf - rainfall[index-1]), 2)
-            adj_cum_rainfall.append(adj_cum_rf)
-            print(ts.strftime("%I:%M %p"), cum_rf, adj_cum_rf)
-            continue
-    # No need to adjust.
-    adj_cum_rainfall.append(cum_rf)
-    print(ts.strftime("%I:%M %p"), cum_rf)
+    if timestamps[index].strftime("%I") == timestamps[index-1].strftime("%I"):
+        print('adjusting')
+        cum_rf -= round(rainfall[index-1], 2)
+    cum_rainfall.append(round(cum_rf, 2))
 
-
-
-# for index, ts, rf in enumerate(zip(timestamps, rainfall)):
-#     print('yes')
-
-
-# From scraping loop:
-# if timestamps:
-#     if current_timestamp.strftime("%I") == timestamps[-1].strftime("%I"):
-#         new_precip -= rainfall[-1]
-
-print("\nAll data:")
-for data in zip(timestamps, rainfall, cum_rainfall, adj_cum_rainfall):
-    print(data[0].strftime("%I:%M %p"), round(data[1], 2), round(data[2], 2), round(data[3], 2))
-
-sys.exit()
+# print("\nAll data:")
+# for data in zip(timestamps, rainfall, cum_rainfall):
+#     print(data[0].strftime("%I:%M %p"), data[1], data[2])
 
 # Plot data.
 fig = plt.figure(dpi=128, figsize=(10, 6))
@@ -97,3 +72,7 @@ plt.ylabel("Rainfall (in)", fontsize=16)
 plt.tick_params(axis='both', which='major', labelsize=16)
 
 plt.show()
+
+
+# Add windspeed plot beneath this.
+# Add moving 3-hour rainfall total?
