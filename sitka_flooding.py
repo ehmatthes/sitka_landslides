@@ -75,6 +75,29 @@ with open(filename) as f:
             gusts.append(float(new_gust))
 
 
+# Get dates and river level data.
+filename = 'irva2_levels_082115.csv'
+with open(filename) as f:
+    reader = csv.reader(f)
+    header_row = next(reader)
+    
+    irva_timestamps, irva_levels = [], []
+    for row in reader:
+        try:
+            irva_timestamp = datetime.strptime(row[0], "%m/%d %H:%M")
+            new_level = row[1].replace('ft', '')
+            new_level = float(new_level)
+        except ValueError:
+            print("Error, data:", row)
+        else:
+            if irva_timestamp.strftime("%d") == '18':
+                irva_timestamps.append(irva_timestamp)
+                irva_levels.append(new_level)
+
+# for ts, lv in zip(irva_timestamps, irva_levels):
+#     print(ts.strftime("%H:%M"), lv)
+
+
 # # Plot rainfall data.
 # fig = plt.figure(0, dpi=128, figsize=(10, 6))
 # # Plot the incremental rainfall.
