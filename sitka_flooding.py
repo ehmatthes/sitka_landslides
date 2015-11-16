@@ -94,6 +94,12 @@ with open(filename) as f:
                 irva_timestamps.append(irva_timestamp)
                 irva_levels.append(new_level)
 
+# Set irva timestamps to match date of others.
+for index, ts in enumerate(irva_timestamps[:]):
+    base_ts = timestamps[0]
+    irva_timestamps[index] = ts.replace(month=base_ts.month, day=base_ts.day)
+
+
 # for ts, lv in zip(irva_timestamps, irva_levels):
 #     print(ts.strftime("%H:%M"), lv)
 
@@ -127,7 +133,7 @@ with open(filename) as f:
 
 # Plot rainfall and wind speeds as subplots.
 # Plot rainfall data.
-f, axarr = plt.subplots(2, sharex=True)
+f, axarr = plt.subplots(3, sharex=True)
 # Plot the incremental rainfall.
 axarr[0].plot(timestamps, rainfall, c='blue')
 # Plot the cumulative rainfall.
@@ -145,9 +151,12 @@ axarr[1].plot(wind_timestamps, gusts, 'ro')
 # Format plot.
 axarr[1].set_ylabel("Wind speed (mph)", fontsize=16)
 
+# Plot river level data.
+axarr[2].plot(irva_timestamps, irva_levels, c='blue')
+axarr[1].set_ylabel("Indian River level (ft)", fontsize=16)
 
-
-
+# for tsr, tsw, tsi in zip(timestamps, wind_timestamps, irva_timestamps):
+#     print(tsr.strftime("%m/%d/%Y %H:%M"), tsw.strftime("%m/%d/%Y %H:%M"), tsi.strftime("%m/%d/%Y %H:%M"))
 
 plt.show()
 
