@@ -75,31 +75,56 @@ with open(filename) as f:
             gusts.append(float(new_gust))
 
 
+# # Plot rainfall data.
+# fig = plt.figure(0, dpi=128, figsize=(10, 6))
+# # Plot the incremental rainfall.
+# plt.plot(timestamps, rainfall, c='blue')
+# # Plot the cumulative rainfall.
+# plt.plot(timestamps, cum_rainfall, c='red')
+
+# # Format plot.
+# plt.title("New rainfall, August 18 2015", fontsize=24)
+# plt.xlabel('', fontsize=16)
+# fig.autofmt_xdate()
+# plt.ylabel("Rainfall (in)", fontsize=16)
+# plt.tick_params(axis='both', which='major', labelsize=16)
+
+# # Plot wind data.
+# fig = plt.figure(1, dpi=128, figsize=(10, 6))
+# plt.plot(wind_timestamps, windspeeds, 'bo')
+# plt.plot(wind_timestamps, gusts, 'ro')
+
+# # Format plot.
+# plt.title("Wind speed and gusts, August 18 2015", fontsize=24)
+# plt.xlabel('', fontsize=16)
+# fig.autofmt_xdate()
+# plt.ylabel("Wind speed (mph)", fontsize=16)
+# plt.tick_params(axis='both', which='major', labelsize=16)
+
+
+# Plot rainfall and wind speeds as subplots.
 # Plot rainfall data.
-fig = plt.figure(0, dpi=128, figsize=(10, 6))
+f, axarr = plt.subplots(2, sharex=True)
 # Plot the incremental rainfall.
-plt.plot(timestamps, rainfall, c='blue')
+axarr[0].plot(timestamps, rainfall, c='blue')
 # Plot the cumulative rainfall.
-plt.plot(timestamps, cum_rainfall, c='red')
+axarr[0].plot(timestamps, cum_rainfall, c='red')
 
 # Format plot.
-plt.title("New rainfall, August 18 2015", fontsize=24)
-plt.xlabel('', fontsize=16)
-fig.autofmt_xdate()
-plt.ylabel("Rainfall (in)", fontsize=16)
-plt.tick_params(axis='both', which='major', labelsize=16)
+axarr[0].set_title("Rainfall and wind speeds, August 18 2015", fontsize=24)
+f.autofmt_xdate()
+axarr[0].set_ylabel("Rainfall (in)", fontsize=16)
+axarr[0].tick_params(axis='both', which='major', labelsize=16)
 
 # Plot wind data.
-fig = plt.figure(1, dpi=128, figsize=(10, 6))
-plt.plot(wind_timestamps, windspeeds, 'bo')
-plt.plot(wind_timestamps, gusts, 'ro')
-
+axarr[1].plot(wind_timestamps, windspeeds, 'bo')
+axarr[1].plot(wind_timestamps, gusts, 'ro')
 # Format plot.
-plt.title("Wind speed and gusts, August 18 2015", fontsize=24)
-plt.xlabel('', fontsize=16)
-fig.autofmt_xdate()
-plt.ylabel("Wind speed (mph)", fontsize=16)
-plt.tick_params(axis='both', which='major', labelsize=16)
+axarr[1].set_ylabel("Wind speed (mph)", fontsize=16)
+
+
+
+
 
 plt.show()
 
