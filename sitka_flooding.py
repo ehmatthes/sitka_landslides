@@ -66,7 +66,7 @@ with open(filename) as f:
                 new_windspeed = 0
             new_gust = row[8]
             if new_gust == '-':
-                new_gust = 0
+                new_gust = new_windspeed
         except ValueError:
             print("Error, data:", row)
         else:
@@ -146,14 +146,14 @@ axarr[0].set_ylabel("Rainfall (in)", fontsize=16)
 axarr[0].tick_params(axis='both', which='major', labelsize=16)
 
 # Plot wind data.
-axarr[1].plot(wind_timestamps, windspeeds, 'bo')
+axarr[1].plot(wind_timestamps, windspeeds, c='blue')#'bo')
 axarr[1].plot(wind_timestamps, gusts, 'ro')
 # Format plot.
 axarr[1].set_ylabel("Wind speed (mph)", fontsize=16)
 
 # Plot river level data.
 axarr[2].plot(irva_timestamps, irva_levels, c='blue')
-axarr[1].set_ylabel("Indian River level (ft)", fontsize=16)
+axarr[2].set_ylabel("Indian River level (ft)", fontsize=16)
 
 # for tsr, tsw, tsi in zip(timestamps, wind_timestamps, irva_timestamps):
 #     print(tsr.strftime("%m/%d/%Y %H:%M"), tsw.strftime("%m/%d/%Y %H:%M"), tsi.strftime("%m/%d/%Y %H:%M"))
